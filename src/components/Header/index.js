@@ -1,18 +1,27 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-import { View, Button, Text, Alert } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const Header = () => {
+import { Wrapper, Container, Logo, BasketContainer, ItemCount } from './styles';
+
+function Header({ navigation, cartSize }) {
   return (
-    <View style={{ backgroundColor: 'yellow' }}>
-      <Text>Home</Text>
-      <Button
-        title="Botao Ola"
-        onPress={() => Alert.alert('Ola')}
-        color="gray"
-      />
-    </View>
+    <Wrapper>
+      <Container>
+        <Logo />
+        <BasketContainer onPress={() => navigation.navigate('Cart')}>
+          <Icon name="shopping-basket" color="#fff" size={24} />
+          <ItemCount>{cartSize || 0}</ItemCount>
+        </BasketContainer>
+      </Container>
+    </Wrapper>
   );
-};
+}
 
-export default Header;
+export default connect(
+  state => ({
+    cartSize: state.cart.length,
+  }),
+  null
+)(Header);
